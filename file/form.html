@@ -1,0 +1,250 @@
+<?php
+// Start the session
+session_start();
+
+// Initialize an array to store posts in session
+if (!isset($_SESSION['posts'])) {
+    $_SESSION['posts'] = [];
+}
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get the posted message
+    $message = htmlspecialchars($_POST['message']); // Prevent XSS
+
+    // Get the current date and time
+    $timestamp = date('Y-m-d H:i');
+
+    // Save the post data (message and timestamp) into the session
+    $_SESSION['posts'][] = [
+        'message' => $message,
+        'timestamp' => $timestamp
+    ];
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Information</title>
+     <style>
+       body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 2rem; /* Responsive font size */
+}
+
+/* Responsive message and search input fields */
+.message, .search {
+    width: 100%; /* Full width on smaller screens */
+    max-width: 25rem; /* Limit max width */
+}
+
+/* Responsive box */
+.box {
+    width: 100%; /* Full width on smaller screens */
+    max-width: 35rem; /* Limit max width */
+    max-height: 28rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Post and user container styles */
+.text,
+.text2 {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+
+.text:hover,
+.text2:hover {
+    background-color: #e1e1e1;
+}
+
+/* Responsive textarea */
+textarea {
+    width: 100%; /* Full width on smaller screens */
+    max-width: 35rem; /* Limit max width */
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    resize: none; /* Disable resizing */
+}
+
+/* Button styling */
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Responsive input field */
+input[type="text"] {
+    width: 100%; /* Full width on smaller screens */
+    max-width: 30rem; /* Limit max width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+input[type="text"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Align box styles */
+.alignbox {
+    text-decoration: underline;
+}
+
+/* Media Queries for Smaller Screens */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5rem; /* Smaller font size for mobile */
+    }
+
+    .box {
+        max-width: 90%; /* Wider on mobile */
+    }
+
+    .message, .search {
+        max-width: 90%; /* Wider on mobile */
+    }
+
+    textarea, input[type="text"] {
+        max-width: 90%; /* Wider on mobile */
+    }
+}
+
+.align1{
+    margin-left: 40rem;
+margin-top: -18rem;
+}
+
+.align2{
+   
+margin-top: -17.5rem;
+margin-bottom: -2rem;
+}
+
+img{
+    width: 16rem;
+    height: auto;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <h1>Welcome (Name)</h1> <img src="richfield_logo (1).PNG" alt="">
+
+    <form action="form.php" method="post"> 
+
+    <div class="alignbox">
+          <textarea id="message" name="message" placeholder="text message here..." required></textarea>
+        <br>
+
+        <button type="submit">Post</button>
+    </form>
+
+
+    <div class="align1">
+    <h1>Your Posts</h1>
+
+    <!--Have this outcome show on the 
+
+    CREATE TABLE messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sender_id INT NOT NULL,
+    receiver_id INT NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
+); this table 
+-->
+
+    <div class="box">
+        
+        <?php if (!empty($_SESSION['posts'])): ?>
+            <?php foreach ($_SESSION['posts'] as $post): ?>
+                <div class="text">
+                    <p><?= $post['message']; ?></p>
+                    <i><?= $post['timestamp']; ?></i>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No posts yet.</p>
+        <?php endif; ?>
+    </div>
+
+    </div>
+
+
+    </div>
+        <!--have info from the 
+        CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+); this table display on text2 for its 
+-->
+<br>
+<div class="align2">
+     <input type="text" placeholder="Search...">
+     <button type="submit">Search</button>
+   
+
+      <div class="box">
+        <div class="text2">
+            <p>name: Prince Mpho Msimango</p>
+            <br>
+            <p>name: Prince Mpho Msimango</p>
+            <i>2024-07-24 20:27</i>
+            <br>
+            <a href="#">view profile</a>
+        </div>
+    </div>
+    </div>
+
+</body>
+</html>
